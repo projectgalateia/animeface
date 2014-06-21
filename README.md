@@ -6,6 +6,11 @@ Anime Character Face detector.
 Fork of Image::AnimeFace (http://anime.udp.jp/imager-animeface.html)
 
 
+Requirements
+--------
+- CLAPACK/CBLAS
+
+
 (Ongoing) Modifications
 --------
 
