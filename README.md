@@ -1,11 +1,9 @@
 AnimeFace
 =========
 
-Anime Character Face detector.
+Anime Character Face detector based on based on 2-Layer Multilayer Perceptron.
 
 Fork of Image::AnimeFace (http://anime.udp.jp/imager-animeface.html).
-
-Based on 2-Layer Multilayer Perceptron.
 
 
 Requirements
@@ -17,5 +15,6 @@ Requirements
 --------
 
 - Removed inner dependencies of CLAPACK
+- Code organization
 - Using CMake
 - English documentation & wiki
