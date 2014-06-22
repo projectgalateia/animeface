@@ -4,9 +4,8 @@
 
 // k-means++
 
-// 最小距離クラス選択
-	static int 
-nv_kmeans_bmc(const nv_matrix_t *mat, int mk,
+// Selecting class with minimum distance
+static int nv_kmeans_bmc(const nv_matrix_t *mat, int mk,
 	const nv_matrix_t *vec, int vm)
 {
 	int k;
@@ -25,9 +24,8 @@ nv_kmeans_bmc(const nv_matrix_t *mat, int mk,
 }
 
 
-// K-Means++初期値選択
-	static void 
-nv_kmeans_init(nv_matrix_t *means, int k,
+// Initial value selection of K-Means++
+static void nv_kmeans_init(nv_matrix_t *means, int k,
 	const nv_matrix_t *data)
 {
 	int m, c;
@@ -36,7 +34,7 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 	float potential = 0.0f;
 	int local_tries = 2 + (int)log(data->m);
 
-	// 1つ目
+	// First
 	nv_vector_copy(means, 0, data, rnd);
 	for (m = 0; m < data->m; ++m) {
 		float dist = nv_euclidean2(means, 0, data, m);
@@ -83,9 +81,8 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 	nv_matrix_free(&min_dists);
 }
 
-// 最長距離での初期値選択
-	static void 
-nv_kmeans_init_max(nv_matrix_t *means, int k, const nv_matrix_t *data)
+// Initial value selection in the longest distance
+static void nv_kmeans_init_max(nv_matrix_t *means, int k, const nv_matrix_t *data)
 {
 	int m, c;
 	nv_matrix_t *min_dists = nv_matrix_alloc(1, data->m);
@@ -115,9 +112,8 @@ nv_kmeans_init_max(nv_matrix_t *means, int k, const nv_matrix_t *data)
 	nv_matrix_free(&min_dists);
 }
 
-// ランダム初期値選択 カブル
-	static void 
-nv_kmeans_init_rand(nv_matrix_t *means, int k, const nv_matrix_t *data)
+// ランダム初期値選択
+static void nv_kmeans_init_rand(nv_matrix_t *means, int k, const nv_matrix_t *data)
 {
 	int c;
 
@@ -127,8 +123,7 @@ nv_kmeans_init_rand(nv_matrix_t *means, int k, const nv_matrix_t *data)
 	}
 }
 
-	int 
-nv_kmeans(nv_matrix_t *means,  // k
+int nv_kmeans(nv_matrix_t *means,  // k
 	nv_matrix_t *count,  // k
 	nv_matrix_t *labels, // data->m
 	const nv_matrix_t *data,
@@ -160,18 +155,18 @@ nv_kmeans(nv_matrix_t *means,  // k
 
 		for (m = 0; m < data->m; ++m) {
 			int label = nv_kmeans_bmc(means, k, data, m);
-			// ラベル決定
+			// Label decision
 			NV_MAT_V(labels, m, 0) = (float)label;
-			// カウント
+			// Count
 			NV_MAT_V(count, label, 0) += 1.0f;
-			// ベクトル合計
+			// Vector sum
 			for (n = 0; n < means->n; ++n) {
 				NV_MAT_V(sum, label, n) += NV_MAT_V(data, m, n);
 			}
 		}
 		++epoch;
 
-		// 終了判定
+		// Termination determination
 		converge = 1;
 		for (m = 0; m < data->m; ++m) {
 			if (NV_MAT_V(labels, m, 0) != NV_MAT_V(old_labels, m, 0)) {
@@ -181,13 +176,13 @@ nv_kmeans(nv_matrix_t *means,  // k
 		}
 
 		if (converge) {
-			// 終了
+			// Terminate
 			processing = 0;
 		} else {
-			// ラベル更新
+			// Update labels
 			nv_matrix_copy(old_labels, 0, labels, 0, old_labels->m);
 
-			// 中央値計算
+			// Median calculation
 			for (c = 0; c < k; ++c) {
 				if (NV_MAT_V(count, c, 0) != 0.0f) {
 					float factor = 1.0f / NV_MAT_V(count, c, 0);
@@ -197,11 +192,11 @@ nv_kmeans(nv_matrix_t *means,  // k
 				}
 			}
 
-			// 最大試行回数判定
+			// Check maximal trials
 			if (max_epoch != 0
 				&& epoch >= max_epoch)
 			{
-				// 終了
+				// Terminate
 				processing = 0;
 			}
 		}

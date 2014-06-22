@@ -1,10 +1,10 @@
 #include "nv_core.h"
 #include "nv_ip_euclidean_color.h"
 
-// ユークリッド空間で比較する用の色空間
-// 中身は変わる可能性あり
+// Color space used to compaire in Euclidean space
+// There is a possibility that the contents may change
 
-// 現在
+// Currently
 // C1 = (R + G + B) / 3
 // C2 = (R + (255 - B)) / 2
 // C3 = (R + 2 * (255 - G) + B) / 4

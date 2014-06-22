@@ -3,7 +3,7 @@
 #include "nv_num_vector.h"
 #include "nv_num_lapack.h"
 
-// 転置
+// Transpose
 nv_matrix_t *nv_matrix_tr(const nv_matrix_t *mat)
 {
 	int m, n;
@@ -54,7 +54,7 @@ void nv_gemv(nv_matrix_t *y, int ym,
 		&NV_MAT_V(x, xm, 0), &o, &beta, &NV_MAT_V(y, ym, 0), &o);
 }
 
-//連立一次方程式
+// System of linear equations
 int nv_gesv(nv_matrix_t *x, int xm,
 	const nv_matrix_t *a, // NxN Matrix
 	const nv_matrix_t *b, // N-Vector
@@ -87,7 +87,7 @@ int nv_gesv(nv_matrix_t *x, int xm,
 	return info;
 }
 
-//連立一次方程式 最小二乗解
+// System of linear equations least squares solution
 int nv_gels(nv_matrix_t *x, int xm,
 	const nv_matrix_t *a, // NxN Matrix
 	const nv_matrix_t *b, // N-Vector
@@ -128,7 +128,7 @@ int nv_gels(nv_matrix_t *x, int xm,
 	return info;
 }
 
-//連立一次方程式 特異値分解+近似
+// System of linear equations singular value decomposition + approximation
 int nv_gelss(nv_matrix_t *x,
 	nv_matrix_t *s, // NxN Matrix
 	const nv_matrix_t *a, // NxN Matrix

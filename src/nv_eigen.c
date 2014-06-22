@@ -7,7 +7,7 @@
 #define NV_LAPACK_SPEC_FAST 1
 
 
-// 対角行列の固有値,固有ベクトルを求める
+// Calculating eigenvalues of diagonal matrix and eigenvector
 int nv_eigen_dm(nv_matrix_t *eigen_vec, 
 	nv_matrix_t *eigen_val,
 	const nv_matrix_t *dmat)

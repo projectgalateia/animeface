@@ -78,20 +78,20 @@ int nv_face_detect(nv_face_position_t *face_pos,
 				continue;
 			}
 
-			// 特徴量抽出
+			// Feature extraction
 			nv_face_haarlike(
 				NV_NORMALIZE_MAX,
 				haar[thread_idx], 0, 
 				gray_integral,
 				x, y, window, window);
 
-			// 顔方向判定
+			// Face direction judgment
 			label = nv_mlp_predict_label(dir_mlp, haar[thread_idx], 0);
 			if (!(label == 0 )) {
 				continue; // 0 = -30°～30° 以外だったらはじく
 			}
 
-			// 顔判別1
+			// Face discrimination 1
 			z1 = nv_mlp_predict_d(detector_mlp, haar[thread_idx], 0, 0);//
 			if (z1 > 0.1) {
 				if (bagging_mlps == 0) {
@@ -122,7 +122,7 @@ int nv_face_detect(nv_face_position_t *face_pos,
 		scale *= scale_factor;
 	}
 
-	// 重複領域の除去
+	// Removal of overlaping regions
 	qsort(candidates, ncandidate, sizeof(nv_candidate), nv_candidate_cmp);
 	for (i = ncandidate-1; i >= 0; --i) {
 		if (!candidates[i].flag) {
@@ -158,7 +158,7 @@ int nv_face_detect(nv_face_position_t *face_pos,
 		}
 	}
 
-	// 部品推定
+	// Component estimation
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(threads) schedule(dynamic, 1)
 #endif
@@ -180,7 +180,7 @@ int nv_face_detect(nv_face_position_t *face_pos,
 		}
 	}
 
-	// 結果作成
+	// Creating result
 	nface = 0;
 	for (i = 0; i < ncandidate && i < maxface; ++i) {
 		if (candidates[i].flag) {

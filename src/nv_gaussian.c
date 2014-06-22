@@ -2,7 +2,7 @@
 #include "nv_num.h"
 #include "nv_ml_gaussian.h"
 
-// ガウス分布
+// Gaussian distribution
 
 float nv_gaussian_predict(const nv_cov_t *cov, const nv_matrix_t *x, int xm)
 {

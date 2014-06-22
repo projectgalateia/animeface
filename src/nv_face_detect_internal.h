@@ -39,9 +39,8 @@ static int nv_is_face_edge(int window, float scale, float area)
 	return 0;
 }
 
-// # 面積でソートされた順に来る
-	static 
-float nv_rect_intersect(float lx1, float ly1, float lx2, float ly2,
+// Called when sorting by area
+static float nv_rect_intersect(float lx1, float ly1, float lx2, float ly2,
 	float rx1, float ry1, float rx2, float ry2)
 {
 	float ax = lx1;

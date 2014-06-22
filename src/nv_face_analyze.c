@@ -75,16 +75,16 @@ nv_get_skin_color(nv_color_t *skin_color,
 
 		nv_color_bgr2euclidean_scalar(sample, m, img, NV_MAT_M(img, y, x));
 	}
-	// クラスタリング
+	// Clustering
 	k = nv_kmeans(means, count, labels, sample, NV_SKIN_COLOR_CLASS, 0);
 
-	// 肌選択
+	// Skin selection
 	max_label = nv_vector_maxsum_m(count);
 	skin_color->v[0] = NV_MAT_V(means, max_label, 0);
 	skin_color->v[1] = NV_MAT_V(means, max_label, 1);
 	skin_color->v[2] = NV_MAT_V(means, max_label, 2);
 
-	// 肌の分散共分散行列,固有値を計算
+	// Compute the eigenvalues, variance-covariance matrix of the skin
 	skin_m = 0;
 	for (m = 0; m < NV_SKIN_COLOR_SAMPLES; ++m) {
 		if (NV_MAT_V(labels, m, 0) == (float)max_label) {
@@ -122,7 +122,7 @@ static void nv_get_hair_color(nv_color_t *hair_color,
 	nv_rect_t hair_rect;
 	int k;
 
-	// 目の上から顔の1/3
+	// 1/3 of the face above the eye
 	hair_rect.x = face->right_eye.x;
 	hair_rect.y = max(0, min(face->left_eye.y, face->right_eye.y) - face->face.height / 3);
 	hair_rect.width = face->left_eye.x + face->left_eye.width - hair_rect.x;
@@ -139,7 +139,7 @@ static void nv_get_hair_color(nv_color_t *hair_color,
 		nv_color_bgr2euclidean_scalar(sample, m, img, NV_MAT_M(img, y, x));
 	}
 
-	// 肌除去
+	// Skin removal
 	for (m = 0; m < sample->m; ++m) {
 		NV_MAT_V(skin_likelihood, m, 0) = nv_gaussian_log_predict(0, skin_cov, sample, m);
 	}
@@ -154,16 +154,16 @@ static void nv_get_hair_color(nv_color_t *hair_color,
 	}
 	nv_matrix_m(sample, hair_m);
 
-	// クラスタリング
+	// Clustering
 	k = nv_kmeans(means, count, labels, sample, NV_HAIR_COLOR_CLASS, 0);
-	// 最大メンバクラス選択
+	// Select class with maximum member
 
 	max_label = nv_vector_maxsum_m(count);
 	hair_color->v[0] = NV_MAT_V(means, max_label, 0);
 	hair_color->v[1] = NV_MAT_V(means, max_label, 1);
 	hair_color->v[2] = NV_MAT_V(means, max_label, 2);
 
-	// 髪の分散共分散行列,固有値を計算
+	// Compute the eigenvalues, variance-covariance matrix of the hair 
 	hair_m = 0;
 	for (m = 0; m < sample->m; ++m) {
 		if (NV_MAT_V(labels, m, 0) == (float)max_label) {
@@ -183,7 +183,7 @@ static void nv_get_hair_color(nv_color_t *hair_color,
 	nv_matrix_free(&likelihood_means);
 }
 
-// [3]countで降順ソート用
+// Used to descending sort
 static int nv_cmp_means(const void *p1, const void *p2)
 {
 	float *lhs = (float *)p1;
@@ -222,7 +222,7 @@ static void nv_get_eye_color(nv_color_t *eye_colors,
 	int eye_m;
 	int x, y;
 
-	// 目の色サンプリング
+	// Color sampling of eye
 	m = 0;
 	for (y = eye_rect->y; y < eye_rect->y + eye_rect->height; ++y) {
 		for (x = eye_rect->x; x < eye_rect->x + eye_rect->width; ++x) {
@@ -231,9 +231,9 @@ static void nv_get_eye_color(nv_color_t *eye_colors,
 		}
 	}
 
-	// 肌と髪を除去
+	// Removal of the hair and skin
 
-	// 肌除去
+	// Skin removal
 	for (m = 0; m < sample->m; ++m) {
 		NV_MAT_V(skin_likelihood, m, 0) = nv_gaussian_log_predict(0, skin_cov, sample, m);
 	}
@@ -248,7 +248,7 @@ static void nv_get_eye_color(nv_color_t *eye_colors,
 	}
 	nv_matrix_m(sample, eye_m);
 
-	// 髪除去
+	// Hair Removal
 	for (m = 0; m < sample->m; ++m) {
 		NV_MAT_V(hair_likelihood, m, 0) = nv_gaussian_log_predict(0, hair_cov, sample, m);
 	}
@@ -265,20 +265,20 @@ static void nv_get_eye_color(nv_color_t *eye_colors,
 	}
 	nv_matrix_m(sample, eye_m);
 
-	// 目のクラスタリング
+	// Clustering of eye 
 	k = nv_kmeans(means, count, labels, sample, NV_EYE_COLOR_CLASS, 0);
 
-	// カウントでソート
+	// Sorting by count 
 	for (m = 0; m < k; ++m) {
 		NV_MAT_V(sorted_means, m, 0) = NV_MAT_V(means, m, 0);
 		NV_MAT_V(sorted_means, m, 1) = NV_MAT_V(means, m, 1);
 		NV_MAT_V(sorted_means, m, 2) = NV_MAT_V(means, m, 2);
 		NV_MAT_V(sorted_means, m, 3) = NV_MAT_V(count, m, 0);
 	}
-	// ソート (label破壊)
+	// Sort (labels destroyed) 
 	qsort(sorted_means->v, k, sizeof(float) * sorted_means->step, nv_cmp_means);
 
-	// 色
+	// Color
 	c = 0;
 	for (m = 0; m < k; ++m) {
 		eye_colors[c].v[0] = NV_MAT_V(sorted_means, m, 0);
@@ -300,8 +300,8 @@ static void nv_get_eye_color(nv_color_t *eye_colors,
 	nv_cov_free(&eye_cov);
 }
 
-	static void 
-nv_get_eye_colors(nv_color_t *eye_colors, 
+static void nv_get_eye_colors(
+	nv_color_t *eye_colors, 
 	nv_color_t *left_eye_colors,
 	nv_color_t *right_eye_colors,
 	const nv_color_t *skin_color,
@@ -321,25 +321,25 @@ nv_get_eye_colors(nv_color_t *eye_colors,
 	nv_matrix_t *sorted_means = nv_matrix_alloc(3 + 1, NV_EYE_COLOR_CLASS);
 	int m, c, epoch;
 
-	// 左目
+	// Left eye
 	nv_get_eye_color(
 		left_eye_colors, left_sample,
 		skin_color, skin_cov,
 		hair_color, hair_cov,
 		&face->left_eye, img);
-	// 右目
+	// Right eye
 	nv_get_eye_color(
 		right_eye_colors, right_sample, 
 		skin_color, skin_cov,
 		hair_color, hair_cov,
 		&face->right_eye, img);
 
-	// サンプル数更新
+	// Update number of samples 
 	color_samples = right_sample->m + left_sample->m;
 	nv_matrix_m(sample, color_samples);
 
-	// 両目
-	// 目の色サンプリング
+	// Both eyes
+	// Color sampling of eyes
 	for (m = 0; m < left_sample->m; ++m) {
 		NV_MAT_V(sample, m, 0) = NV_MAT_V(left_sample, m, 0);
 		NV_MAT_V(sample, m, 1) = NV_MAT_V(left_sample, m, 1);
@@ -352,17 +352,17 @@ nv_get_eye_colors(nv_color_t *eye_colors,
 	}
 	epoch = nv_kmeans(means, count, labels, sample, NV_EYE_COLOR_CLASS, 0);
 
-	// カウントでソート
+	// Sort by count
 	for (m = 0; m < NV_EYE_COLOR_CLASS; ++m) {
 		NV_MAT_V(sorted_means, m, 0) = NV_MAT_V(means, m, 0);
 		NV_MAT_V(sorted_means, m, 1) = NV_MAT_V(means, m, 1);
 		NV_MAT_V(sorted_means, m, 2) = NV_MAT_V(means, m, 2);
 		NV_MAT_V(sorted_means, m, 3) = NV_MAT_V(count, m, 0);
 	}
-	// カウントでソート, !labels破壊!
+	// Sort by count, !labels destroyed!
 	qsort(sorted_means->v, NV_EYE_COLOR_CLASS, sizeof(float) * sorted_means->step, nv_cmp_means);
 
-	// 色
+	// Color
 	c = 0;
 	for (m = 0; m < NV_EYE_COLOR_CLASS; ++m) {
 		eye_colors[c].v[0] = NV_MAT_V(sorted_means, m, 0);
@@ -416,8 +416,7 @@ static void nv_ec2bgr(const nv_color_t *ec, nv_color_t *bgr)
 	nv_matrix_free(&tmp);
 }
 
-	void 
-nv_face_analyze(nv_face_feature_t *feature,
+void nv_face_analyze(nv_face_feature_t *feature,
 	const nv_face_position_t *face,
 	const nv_matrix_t *img)
 {
@@ -437,7 +436,7 @@ nv_face_analyze(nv_face_feature_t *feature,
 	feature->eye_ratio = nv_eye_ratio(face);
 	feature->face_ratio = nv_face_ratio(face);
 
-	// 色空間変換
+	// Color space conversion
 	nv_ec2bgr(&feature->skin_ec, &feature->skin_bgr);
 	nv_ec2bgr(&feature->hair_ec, &feature->hair_bgr);
 	for (i = 0; i < 4; ++i) {

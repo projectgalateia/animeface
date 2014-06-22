@@ -5,15 +5,15 @@
 extern "C" {
 #endif
 
-// 分散共分散行列
+// Variance-covariance matrix
 typedef struct {
 	int n;
 	int data_m;
-	nv_matrix_t *u;        // 平均
+	nv_matrix_t *u;        // mean
 	nv_matrix_t *s;        // 
-	nv_matrix_t *cov;      // 行分散行列
-	nv_matrix_t *eigen_vec; // 固有ベクトル
-	nv_matrix_t *eigen_val; // 固有値 (大きい順)
+	nv_matrix_t *cov;      // covariance matrix
+	nv_matrix_t *eigen_vec; // Eigenvector
+	nv_matrix_t *eigen_val; // Eigenvalue (Descending order)
 } nv_cov_t;
 
 nv_cov_t *nv_cov_alloc(int n);

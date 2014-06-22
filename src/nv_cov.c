@@ -3,7 +3,7 @@
 #include "nv_num_matrix.h"
 #include "nv_num_eigen.h"
 
-// 分散共分散
+// Variance-covariance
 
 nv_cov_t *nv_cov_alloc(int n)
 {
@@ -65,7 +65,7 @@ void nv_cov(nv_matrix_t *cov,
 		&& u->n == cov->n
 		&& s->n == cov->n);
 
-	// 平均
+	// Mean
 	nv_matrix_zero(u);
 	for (m = 0; m < data->m; ++m) {
 		for (n = 0; n < data->n; ++n) {
@@ -73,7 +73,7 @@ void nv_cov(nv_matrix_t *cov,
 		}
 	}
 
-	// 上三角 分散共分散行列
+	// Upper triangular variance-covariance matrix
 	nv_matrix_zero(cov);
 	nv_matrix_zero(s);
 	for (n = 0; n < cov->n; ++n) {

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-// 多層パーセプトロン
+// Multilayer perceptron
 // 2 Layer
 
 
@@ -64,7 +64,7 @@ void nv_mlp_dump_c(FILE *out, const nv_mlp_t *mlp, const char *name, int static_
 	fflush(out);
 }
 
-// クラス分類
+// Classification
 
 int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 {
@@ -75,8 +75,8 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 	nv_matrix_t *input_y = nv_matrix_alloc(mlp->input_w->m, 1);
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 
-	/* 順伝播 */
-	// 入力層
+	/* Forward propagation */
+	// Input layer
 
 #ifdef _OPENMP
 #pragma omp parallel for private(y) 
@@ -87,8 +87,8 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// 隠れ層
-	// 出力層
+	// Hidden layer
+	// Output layer
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -131,7 +131,7 @@ double nv_mlp_predict_d(const nv_mlp_t *mlp,
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 	double p;
 
-	// 入力層
+	// Input layer
 #ifdef _OPENMP
 	// omp_set_nested(false);
 #pragma omp parallel for private(y)
@@ -142,8 +142,8 @@ double nv_mlp_predict_d(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// 隠れ層
-	// 出力層
+	// Hidden layer
+	// Outpyt layer
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);;
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -171,7 +171,7 @@ float nv_mlp_predict(const nv_mlp_t *mlp,
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 	float p;
 
-	// 入力層
+	// Input layer
 #ifdef _OPENMP
 	// omp_set_nested(false);
 #pragma omp parallel for private(y)
@@ -182,8 +182,8 @@ float nv_mlp_predict(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// 隠れ層
-	// 出力層
+	// Hidden layer
+	// Output layer
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);;
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -236,7 +236,7 @@ void nv_mlp_regression(const nv_mlp_t *mlp,
 	nv_matrix_t *input_y = nv_matrix_alloc(mlp->input_w->m, 1);
 	nv_matrix_t *hidden_y = nv_matrix_alloc(mlp->hidden_w->m, 1);
 
-	// 入力層
+	// Input layer
 #ifdef _OPENMP
 #pragma omp parallel for private(y)
 #endif
@@ -246,14 +246,14 @@ void nv_mlp_regression(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// 隠れ層
+	// Hidden layer
 	for (m = 0; m < mlp->hidden_w->m; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
 		NV_MAT_V(hidden_y, 0, m) = y;
 	}
 
-	// 出力層
+	// Output layer
 	nv_vector_copy(out, om, hidden_y, 0);
 
 	nv_matrix_free(&input_y);

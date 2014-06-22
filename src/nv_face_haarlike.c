@@ -1,8 +1,8 @@
 #include "nv_core.h"
 #include "nv_face_feature.h"
 
-// haar的なもの
-// 現在1レベルの解像度しか使用してない
+// Things for haar
+// We're currently using only one level of resolution
 
 static float nv_face_haarlike_diagonal_filter(int type,
 	const nv_matrix_t *sum,
@@ -158,7 +158,7 @@ void nv_face_haarlike(nv_face_haarlike_normalize_e normalize_type,
 	// 正規化
 	switch (normalize_type) {
 	case NV_NORMALIZE_MAX:
-		// 最大値=1.0
+		// Maximum=1.0
 		vmax = 0.0f;
 		vmin = FLT_MAX;
 		for (n = 0; n < feature->n; ++n) {
@@ -181,7 +181,7 @@ void nv_face_haarlike(nv_face_haarlike_normalize_e normalize_type,
 		}
 		break;
 	case NV_NORMALIZE_NORM:
-		// ベクトル NORM=1.0
+		// Vector Norm=1.0
 		v = 0.0f;
 		for (n = 0; n < feature->n; ++n) {
 			v += NV_MAT_V(feature, feature_m, n) * NV_MAT_V(feature, feature_m, n);

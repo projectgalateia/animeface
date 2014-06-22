@@ -6,23 +6,23 @@ extern "C" {
 #endif
 
 typedef struct {
-	// 眼の縦横比 
-	// x/y が大きいほう(斜めの場合片目が縦長になるため)
+	// Aspect ratio of the eye 
+	// where x/y is greater (In the case of one eye slant becomes vertical)
 	float eye_ratio;
-	// (眼の上～アゴ)/(顔縦幅-顎から下の長さ)
+	// (top of eyes～chin)/(face width - length from chin to the bottom)
 	float face_ratio;
-	// 眼から口の間の平均色
+	// Average color between the mouth and the eyes
 	nv_color_t skin_bgr;
 	nv_color_t skin_ec;
-	// 眼の上から眼の3倍まで幅を色でクラスタリングしたとき
-	// 肌と離れている最大要素のクラスの平均色
+	// Larges color class when clustered colors in area between
+	// top of eyes and three times length of eyes above the eyes
 	nv_color_t hair_bgr;
 	nv_color_t hair_ec;
-	// 目の色をクラスタリングした肌を除く上位4色
+	// Top 4 color of clustered eye color. Skin color is excluded
 	nv_color_t left_eye_bgr[4];
 	nv_color_t right_eye_bgr[4];
 	nv_color_t eye_bgr[4];
-	// 目の色をクラスタリングした肌を除く上位4色(euclidean_color)
+	// Top 4 color of clustered eye color. Skin color is excluded (euclidean_color)
 	nv_color_t left_eye_ec[4];
 	nv_color_t right_eye_ec[4];
 	nv_color_t eye_ec[4];
