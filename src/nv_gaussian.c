@@ -1,5 +1,3 @@
-#if !NV_XS
-
 #include "nv_core.h"
 #include "nv_num.h"
 #include "nv_ml_gaussian.h"
@@ -69,4 +67,3 @@ float nv_gaussian_log_predict(int npca, const nv_cov_t *cov, const nv_matrix_t *
 
 	return p;
 }
-#endif

@@ -1,23 +1,11 @@
 #include "nv_core.h"
 #include "nv_core_matrix.h"
 
-#if (NV_ENABLE_CUDA && NV_GPU_PIN_MALLOC)
-#include <cuda_runtime.h>
-#endif
-
-
 static void *nv_malloc(unsigned long n)
 {
 	void *mem;
-#if (NV_ENABLE_CUDA && NV_GPU_PIN_MALLOC)
-	if (nv_gpu_available()) {
-		cudaMallocHost(&mem, n);
-	} else {
-		mem = malloc(n);
-	}
-#else
 	mem = malloc(n);
-#endif
+
 	return mem;
 }
 

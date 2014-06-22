@@ -5,6 +5,12 @@ project(AnimeFace)
 FILE(GLOB SRCS "src/*.c")
 FILE(GLOB HEADERS "src/*.h")
 
+OPTION(ENABLE_OPENMP	"Enables OpenMP Support" 0)
+
+IF(ENABLE_OPENMP)
+	ADD_DEFINITIONS(-DNV_ENABLE_OPENMP)
+ENDIF()
+
 add_library(animeface ${SRCS})
 
 install(FILES ${HEADERS} DESTINATION include)

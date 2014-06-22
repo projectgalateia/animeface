@@ -10,10 +10,6 @@ extern "C" {
 #include "nv_core_matrix.h"
 #include "nv_core_util.h"
 
-#if NV_ENABLE_CUDA
-#include "nv_core_gpu.h"
-#endif
-
 #ifdef __cplusplus
 }
 #endif
