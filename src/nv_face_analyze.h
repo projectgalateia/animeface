@@ -6,32 +6,31 @@ extern "C" {
 #endif
 
 typedef struct {
-	// Šá‚Ìc‰¡”ä 
-	// x/y ‚ª‘å‚«‚¢‚Ù‚¤(Î‚ß‚Ìê‡•Ğ–Ú‚ªc’·‚É‚È‚é‚½‚ß)
+	// çœ¼ã®ç¸¦æ¨ªæ¯” 
+	// x/y ãŒå¤§ãã„ã»ã†(æ–œã‚ã®å ´åˆç‰‡ç›®ãŒç¸¦é•·ã«ãªã‚‹ãŸã‚)
 	float eye_ratio;
-	// (Šá‚Ìã`ƒAƒS)/(Šçc•-Š{‚©‚ç‰º‚Ì’·‚³)
+	// (çœ¼ã®ä¸Šï½ã‚¢ã‚´)/(é¡”ç¸¦å¹…-é¡ã‹ã‚‰ä¸‹ã®é•·ã•)
 	float face_ratio;
-	// Šá‚©‚çŒû‚ÌŠÔ‚Ì•½‹ÏF
+	// çœ¼ã‹ã‚‰å£ã®é–“ã®å¹³å‡è‰²
 	nv_color_t skin_bgr;
 	nv_color_t skin_ec;
-	// Šá‚Ìã‚©‚çŠá‚Ì3”{‚Ü‚Å•‚ğF‚ÅƒNƒ‰ƒXƒ^ƒŠƒ“ƒO‚µ‚½‚Æ‚«
-	// ”§‚Æ—£‚ê‚Ä‚¢‚éÅ‘å—v‘f‚ÌƒNƒ‰ƒX‚Ì•½‹ÏF
+	// çœ¼ã®ä¸Šã‹ã‚‰çœ¼ã®3å€ã¾ã§å¹…ã‚’è‰²ã§ã‚¯ãƒ©ã‚¹ã‚¿ãƒªãƒ³ã‚°ã—ãŸã¨ã
+	// è‚Œã¨é›¢ã‚Œã¦ã„ã‚‹æœ€å¤§è¦ç´ ã®ã‚¯ãƒ©ã‚¹ã®å¹³å‡è‰²
 	nv_color_t hair_bgr;
 	nv_color_t hair_ec;
-	// –Ú‚ÌF‚ğƒNƒ‰ƒXƒ^ƒŠƒ“ƒO‚µ‚½”§‚ğœ‚­ãˆÊ4F
+	// ç›®ã®è‰²ã‚’ã‚¯ãƒ©ã‚¹ã‚¿ãƒªãƒ³ã‚°ã—ãŸè‚Œã‚’é™¤ãä¸Šä½4è‰²
 	nv_color_t left_eye_bgr[4];
 	nv_color_t right_eye_bgr[4];
 	nv_color_t eye_bgr[4];
-	// –Ú‚ÌF‚ğƒNƒ‰ƒXƒ^ƒŠƒ“ƒO‚µ‚½”§‚ğœ‚­ãˆÊ4F(euclidean_color)
+	// ç›®ã®è‰²ã‚’ã‚¯ãƒ©ã‚¹ã‚¿ãƒªãƒ³ã‚°ã—ãŸè‚Œã‚’é™¤ãä¸Šä½4è‰²(euclidean_color)
 	nv_color_t left_eye_ec[4];
 	nv_color_t right_eye_ec[4];
 	nv_color_t eye_ec[4];
 } nv_face_feature_t;
 
-void 
-nv_face_analyze(nv_face_feature_t *feature,
-				const nv_face_position_t *face,
-				const nv_matrix_t *img);
+void nv_face_analyze(nv_face_feature_t *feature,
+	const nv_face_position_t *face,
+	const nv_matrix_t *img);
 
 
 #ifdef __cplusplus

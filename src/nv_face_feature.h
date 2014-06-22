@@ -22,12 +22,10 @@ typedef enum {
 } nv_face_haarlike_normalize_e;
 
 void nv_face_haarlike(nv_face_haarlike_normalize_e type,
-					  nv_matrix_t *feature, 
-					  int feature_m,
-					  const nv_matrix_t *sum,
-					  int x, int y, int width, int height);
-
-
+	nv_matrix_t *feature, 
+	int feature_m,
+	const nv_matrix_t *sum,
+	int x, int y, int width, int height);
 
 #ifdef __cplusplus
 }

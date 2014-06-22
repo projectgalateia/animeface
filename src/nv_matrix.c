@@ -3,7 +3,7 @@
 #include "nv_num_vector.h"
 #include "nv_num_lapack.h"
 
-// “]’u
+// è»¢ç½®
 nv_matrix_t *nv_matrix_tr(const nv_matrix_t *mat)
 {
 	int m, n;
@@ -36,10 +36,10 @@ nv_matrix_t *nv_matrix3d_tr(const nv_matrix_t *mat)
 
 // y = (A, x)
 void nv_gemv(nv_matrix_t *y, int ym,
-			 nv_matrix_tr_t a_tr,
-			 const nv_matrix_t *a,
-			 const nv_matrix_t *x,
-			 int xm)
+	nv_matrix_tr_t a_tr,
+	const nv_matrix_t *a,
+	const nv_matrix_t *x,
+	int xm)
 {
 	float alpha = 1.0f;
 	float beta = 0.0f;
@@ -54,11 +54,11 @@ void nv_gemv(nv_matrix_t *y, int ym,
 		&NV_MAT_V(x, xm, 0), &o, &beta, &NV_MAT_V(y, ym, 0), &o);
 }
 
-//˜A—§ˆêŽŸ•û’öŽ®
+//é€£ç«‹ä¸€æ¬¡æ–¹ç¨‹å¼
 int nv_gesv(nv_matrix_t *x, int xm,
-			const nv_matrix_t *a, // NxN Matrix
-			const nv_matrix_t *b, // N-Vector
-			int bm)
+	const nv_matrix_t *a, // NxN Matrix
+	const nv_matrix_t *b, // N-Vector
+	int bm)
 {
 	nv_matrix_t *t_a = nv_matrix_alloc(a->n, a->m);
 	nv_matrix_t *t_b = nv_matrix_alloc(b->n, 1);
@@ -87,11 +87,11 @@ int nv_gesv(nv_matrix_t *x, int xm,
 	return info;
 }
 
-//˜A—§ˆêŽŸ•û’öŽ® Å¬“ñæ‰ð
+//é€£ç«‹ä¸€æ¬¡æ–¹ç¨‹å¼ æœ€å°äºŒä¹—è§£
 int nv_gels(nv_matrix_t *x, int xm,
-			const nv_matrix_t *a, // NxN Matrix
-			const nv_matrix_t *b, // N-Vector
-			int bm)
+	const nv_matrix_t *a, // NxN Matrix
+	const nv_matrix_t *b, // N-Vector
+	int bm)
 {
 	nv_matrix_t *t_a = nv_matrix_alloc(a->n, a->m);
 	nv_matrix_t *t_b = nv_matrix_alloc(b->n, 1);
@@ -128,11 +128,11 @@ int nv_gels(nv_matrix_t *x, int xm,
 	return info;
 }
 
-//˜A—§ˆêŽŸ•û’öŽ® “ÁˆÙ’l•ª‰ð+‹ßŽ—
+//é€£ç«‹ä¸€æ¬¡æ–¹ç¨‹å¼ ç‰¹ç•°å€¤åˆ†è§£+è¿‘ä¼¼
 int nv_gelss(nv_matrix_t *x,
-			 nv_matrix_t *s, // NxN Matrix
-			 const nv_matrix_t *a, // NxN Matrix
-			 const nv_matrix_t *b)
+	nv_matrix_t *s, // NxN Matrix
+	const nv_matrix_t *a, // NxN Matrix
+	const nv_matrix_t *b)
 {
 	nv_matrix_t *t_a = nv_matrix_alloc(a->n, a->m);
 	nv_matrix_t *t_b = nv_matrix_alloc(b->n, b->m);

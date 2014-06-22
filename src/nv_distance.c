@@ -2,13 +2,13 @@
 #include "nv_num.h"
 #include "nv_num_distance.h"
 
-// ユークリッド距離
+// 繝ｦ繝ｼ繧ｯ繝ｪ繝�繝芽ｷ晞屬
 float nv_euclidean(const nv_matrix_t *vec1, int m1, const nv_matrix_t *vec2, int m2)
 {
 	return sqrtf(nv_euclidean2(vec1, m1, vec2, m2));
 }
 
-// ユークリッド距離^2
+// 繝ｦ繝ｼ繧ｯ繝ｪ繝�繝芽ｷ晞屬^2
 float nv_euclidean2(const nv_matrix_t *vec1, int m1, const nv_matrix_t *vec2, int m2)
 {
 	int n;
@@ -23,7 +23,7 @@ float nv_euclidean2(const nv_matrix_t *vec1, int m1, const nv_matrix_t *vec2, in
 	return dist;
 }
 
-// マハラノビス距離
+// 繝槭ワ繝ｩ繝弱ン繧ｹ霍晞屬
 float nv_mahalanobis(const nv_cov_t *cov, const nv_matrix_t *x, int xm)
 {
 	int n;

@@ -31,7 +31,7 @@ static void *nv_realloc(void *oldmem, unsigned long n)
 nv_matrix_t *nv_matrix_alloc(int n, int m)
 {
 	void *mem;
-	
+
 	int step = n * sizeof(float);//(n + 4 - (n & 3)) * sizeof(float); // SSE2
 	int mem_size = step * m + sizeof(nv_matrix_t) + 0x10;
 	nv_matrix_t *matrix = (nv_matrix_t *)nv_malloc(mem_size);

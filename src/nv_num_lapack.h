@@ -10,7 +10,7 @@ extern "C" {
 
 // ilaenv
 integer ilaenv_(integer *, char *, char *, integer *, integer *, 
-				integer *, integer *);
+	integer *, integer *);
 
 #ifdef __cplusplus
 }

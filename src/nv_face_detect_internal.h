@@ -39,10 +39,10 @@ static int nv_is_face_edge(int window, float scale, float area)
 	return 0;
 }
 
-// # –ÊÏ‚Åƒ\[ƒg‚³‚ê‚½‡‚É—ˆ‚é
-static 
+// # é¢ç©ã§ã‚½ãƒ¼ãƒˆã•ã‚ŒãŸé †ã«æ¥ã‚‹
+	static 
 float nv_rect_intersect(float lx1, float ly1, float lx2, float ly2,
-						float rx1, float ry1, float rx2, float ry2)
+	float rx1, float ry1, float rx2, float ry2)
 {
 	float ax = lx1;
 	float ay = ly1;
@@ -65,7 +65,7 @@ float nv_rect_intersect(float lx1, float ly1, float lx2, float ly2,
 	}
 
 	if (ax <= bx && axl >= bx) {
-		// x²‚©‚Ô‚è a b
+		// xè»¸ã‹ã¶ã‚Š a b
 		if (ay <= by && ayl >= by) {
 			float sx = bx;
 			float sy = by;
@@ -80,7 +80,7 @@ float nv_rect_intersect(float lx1, float ly1, float lx2, float ly2,
 			area_j = (ex - sx) * (ey - sy);
 		}
 	} else if (ax >= bx && ax <= bxl) {
-		// x²‚©‚Ô‚è b a
+		// xè»¸ã‹ã¶ã‚Š b a
 		if (by >= ay && by <= ayl) {
 			float sx = ax;
 			float sy = by;

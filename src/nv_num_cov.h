@@ -5,22 +5,22 @@
 extern "C" {
 #endif
 
-// •ªU‹¤•ªUs—ñ
+// åˆ†æ•£å…±åˆ†æ•£è¡Œåˆ—
 typedef struct {
 	int n;
 	int data_m;
-	nv_matrix_t *u;        // •½‹Ï
+	nv_matrix_t *u;        // å¹³å‡
 	nv_matrix_t *s;        // 
-	nv_matrix_t *cov;      // s•ªUs—ñ
-	nv_matrix_t *eigen_vec; // ŒÅ—LƒxƒNƒgƒ‹
-	nv_matrix_t *eigen_val; // ŒÅ—L’l (‘å‚«‚¢‡)
+	nv_matrix_t *cov;      // è¡Œåˆ†æ•£è¡Œåˆ—
+	nv_matrix_t *eigen_vec; // å›ºæœ‰ãƒ™ã‚¯ãƒˆãƒ«
+	nv_matrix_t *eigen_val; // å›ºæœ‰å€¤ (å¤§ãã„é †)
 } nv_cov_t;
 
 nv_cov_t *nv_cov_alloc(int n);
 void nv_cov(nv_matrix_t *cov,
-			nv_matrix_t *u,
-			nv_matrix_t *s,
-			const nv_matrix_t *data);
+	nv_matrix_t *u,
+	nv_matrix_t *s,
+	const nv_matrix_t *data);
 void nv_cov_eigen(nv_cov_t *cov, const nv_matrix_t *data);
 void nv_cov_free(nv_cov_t **cov);
 

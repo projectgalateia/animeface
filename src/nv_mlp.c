@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-// ‘½‘wƒp[ƒZƒvƒgƒƒ“
+// å¤šå±¤ãƒ‘ãƒ¼ã‚»ãƒ—ãƒˆãƒ­ãƒ³
 // 2 Layer
 
 
@@ -64,7 +64,7 @@ void nv_mlp_dump_c(FILE *out, const nv_mlp_t *mlp, const char *name, int static_
 	fflush(out);
 }
 
-// ƒNƒ‰ƒX•ª—Ş
+// ã‚¯ãƒ©ã‚¹åˆ†é¡
 
 int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 {
@@ -75,8 +75,8 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 	nv_matrix_t *input_y = nv_matrix_alloc(mlp->input_w->m, 1);
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 
-	/* ‡“`”d */
-	// “ü—Í‘w
+	/* é †ä¼æ’­ */
+	// å…¥åŠ›å±¤
 
 #ifdef _OPENMP
 #pragma omp parallel for private(y) 
@@ -87,8 +87,8 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// ‰B‚ê‘w
-	// o—Í‘w
+	// éš ã‚Œå±¤
+	// å‡ºåŠ›å±¤
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -106,7 +106,7 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 		for (n = 0; n < output_y->n; ++n) {
 			if (mp < NV_MAT_V(output_y, 0, n)
 				&& NV_MAT_V(output_y, 0, n) > 0.5f
-				) 
+			   ) 
 			{
 				mp = NV_MAT_V(output_y, 0, n);
 				l = n;
@@ -121,7 +121,7 @@ int nv_mlp_predict_label(const nv_mlp_t *mlp, const nv_matrix_t *x, int xm)
 }
 
 double nv_mlp_predict_d(const nv_mlp_t *mlp,
-						const nv_matrix_t *x, int xm, int cls)
+	const nv_matrix_t *x, int xm, int cls)
 {
 	int m;
 	int l = -1;
@@ -131,9 +131,9 @@ double nv_mlp_predict_d(const nv_mlp_t *mlp,
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 	double p;
 
-	// “ü—Í‘w
+	// å…¥åŠ›å±¤
 #ifdef _OPENMP
-// omp_set_nested(false);
+	// omp_set_nested(false);
 #pragma omp parallel for private(y)
 #endif
 	for (m = 0; m < mlp->hidden; ++m) {
@@ -142,8 +142,8 @@ double nv_mlp_predict_d(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// ‰B‚ê‘w
-	// o—Í‘w
+	// éš ã‚Œå±¤
+	// å‡ºåŠ›å±¤
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);;
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -162,7 +162,7 @@ double nv_mlp_predict_d(const nv_mlp_t *mlp,
 
 
 float nv_mlp_predict(const nv_mlp_t *mlp,
-					 const nv_matrix_t *x, int xm, int cls)
+	const nv_matrix_t *x, int xm, int cls)
 {
 	int m;
 	int l = -1;
@@ -171,9 +171,9 @@ float nv_mlp_predict(const nv_mlp_t *mlp,
 	nv_matrix_t *output_y = nv_matrix_alloc(mlp->output, 1);
 	float p;
 
-	// “ü—Í‘w
+	// å…¥åŠ›å±¤
 #ifdef _OPENMP
-// omp_set_nested(false);
+	// omp_set_nested(false);
 #pragma omp parallel for private(y)
 #endif
 	for (m = 0; m < mlp->hidden; ++m) {
@@ -182,8 +182,8 @@ float nv_mlp_predict(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// ‰B‚ê‘w
-	// o—Í‘w
+	// éš ã‚Œå±¤
+	// å‡ºåŠ›å±¤
 	for (m = 0; m < mlp->output; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);;
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
@@ -198,12 +198,12 @@ float nv_mlp_predict(const nv_mlp_t *mlp,
 }
 
 double nv_mlp_bagging_predict_d(const nv_mlp_t **mlp, int nmlp, 
-							   const nv_matrix_t *x, int xm, int cls)
+	const nv_matrix_t *x, int xm, int cls)
 {
 	double p = 0.0f;
 	double factor = 1.0 / nmlp;
 	int i;
-	
+
 	for (i = 0; i < nmlp; ++i) {
 		p += factor * nv_mlp_predict_d(mlp[i], x, xm, cls);
 	}
@@ -212,12 +212,12 @@ double nv_mlp_bagging_predict_d(const nv_mlp_t **mlp, int nmlp,
 }
 
 float nv_mlp_bagging_predict(const nv_mlp_t **mlp, int nmlp, 
-							 const nv_matrix_t *x, int xm, int cls)
+	const nv_matrix_t *x, int xm, int cls)
 {
 	float p = 0.0f;
 	float factor = 1.0f / nmlp;
 	int i;
-	
+
 	for (i = 0; i < nmlp; ++i) {
 		p += factor * nv_mlp_predict(mlp[i], x, xm, cls);
 	}
@@ -225,10 +225,10 @@ float nv_mlp_bagging_predict(const nv_mlp_t **mlp, int nmlp,
 	return p;
 }
 
-// ”ñüŒ`d‰ñ‹A
+// éç·šå½¢é‡å›å¸°
 
 void nv_mlp_regression(const nv_mlp_t *mlp, 
-					   const nv_matrix_t *x, int xm, nv_matrix_t *out, int om)
+	const nv_matrix_t *x, int xm, nv_matrix_t *out, int om)
 {
 	int m;
 	int l = -1;
@@ -236,7 +236,7 @@ void nv_mlp_regression(const nv_mlp_t *mlp,
 	nv_matrix_t *input_y = nv_matrix_alloc(mlp->input_w->m, 1);
 	nv_matrix_t *hidden_y = nv_matrix_alloc(mlp->hidden_w->m, 1);
 
-	// “ü—Í‘w
+	// å…¥åŠ›å±¤
 #ifdef _OPENMP
 #pragma omp parallel for private(y)
 #endif
@@ -246,14 +246,14 @@ void nv_mlp_regression(const nv_mlp_t *mlp,
 		NV_MAT_V(input_y, 0, m) = nv_mlp_sigmoid(y);
 	}
 
-	// ‰B‚ê‘w
+	// éš ã‚Œå±¤
 	for (m = 0; m < mlp->hidden_w->m; ++m) {
 		y = NV_MAT_V(mlp->hidden_bias, m, 0);
 		y += nv_vector_dot(input_y, 0, mlp->hidden_w, m);
 		NV_MAT_V(hidden_y, 0, m) = y;
 	}
 
-	// o—Í‘w
+	// å‡ºåŠ›å±¤
 	nv_vector_copy(out, om, hidden_y, 0);
 
 	nv_matrix_free(&input_y);

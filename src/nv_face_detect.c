@@ -8,20 +8,19 @@
 
 #define NV_FACE_DETECT_MAX_CANDIDATES 8192
 
-int 
-nv_face_detect(nv_face_position_t *face_pos, 
-			   int maxface,
-			   const nv_matrix_t *gray_integral, 
-			   const nv_matrix_t *edge_integral, 
-			   const nv_rect_t *image_size,
-			   const nv_mlp_t *dir_mlp,
-			   const nv_mlp_t *detector_mlp,
-			   const nv_mlp_t **bagging_mlp, int bagging_mlps,
-			   const nv_mlp_t *parts_mlp,
-			   float step,
-			   float scale_factor,
-			   float min_window_size
-			   )
+int nv_face_detect(nv_face_position_t *face_pos, 
+	int maxface,
+	const nv_matrix_t *gray_integral, 
+	const nv_matrix_t *edge_integral, 
+	const nv_rect_t *image_size,
+	const nv_mlp_t *dir_mlp,
+	const nv_mlp_t *detector_mlp,
+	const nv_mlp_t **bagging_mlp, int bagging_mlps,
+	const nv_mlp_t *parts_mlp,
+	float step,
+	float scale_factor,
+	float min_window_size
+	)
 {
 	nv_candidate candidates[NV_FACE_DETECT_MAX_CANDIDATES] = {0}; // max
 	int i, j;
@@ -71,7 +70,7 @@ nv_face_detect(nv_face_position_t *face_pos,
 			{
 				continue;
 			}
-			// ƒGƒbƒW‚Å}Š ‚è
+			// ã‚¨ãƒƒã‚¸ã§æåˆˆã‚Š
 			area = NV_MAT3D_V(edge_integral, ey, ex, 0)
 				- NV_MAT3D_V(edge_integral, ey, x, 0)
 				- (NV_MAT3D_V(edge_integral, y, ex, 0) - NV_MAT3D_V(edge_integral, y, x, 0));
@@ -79,30 +78,30 @@ nv_face_detect(nv_face_position_t *face_pos,
 				continue;
 			}
 
-			// “Á’¥—Ê’Šo
+			// ç‰¹å¾´é‡æŠ½å‡º
 			nv_face_haarlike(
 				NV_NORMALIZE_MAX,
 				haar[thread_idx], 0, 
 				gray_integral,
 				x, y, window, window);
 
-			// Šç•ûŒü”»’è
+			// é¡”æ–¹å‘åˆ¤å®š
 			label = nv_mlp_predict_label(dir_mlp, haar[thread_idx], 0);
 			if (!(label == 0 )) {
-				continue; // 0 = -30‹`30‹ ˆÈŠO‚¾‚Á‚½‚ç‚Í‚¶‚­
+				continue; // 0 = -30Â°ï½30Â° ä»¥å¤–ã ã£ãŸã‚‰ã¯ã˜ã
 			}
 
-			// Šç”»•Ê1
+			// é¡”åˆ¤åˆ¥1
 			z1 = nv_mlp_predict_d(detector_mlp, haar[thread_idx], 0, 0);//
 			if (z1 > 0.1) {
 				if (bagging_mlps == 0) {
 					z = z1;
 				} else {
-					// Šç”»•Ê2
+					// é¡”åˆ¤åˆ¥2
 					z = nv_mlp_bagging_predict_d(bagging_mlp, bagging_mlps, haar[thread_idx], 0, 0);
 				}
 				if (z > 0.5) {
-					// Šç
+					// é¡”
 #ifdef _OPENMP
 #pragma omp critical
 #endif
@@ -118,12 +117,12 @@ nv_face_detect(nv_face_position_t *face_pos,
 					}
 				}
 			}
-			
+
 		}
 		scale *= scale_factor;
 	}
 
-	// d•¡—Ìˆæ‚Ìœ‹
+	// é‡è¤‡é ˜åŸŸã®é™¤å»
 	qsort(candidates, ncandidate, sizeof(nv_candidate), nv_candidate_cmp);
 	for (i = ncandidate-1; i >= 0; --i) {
 		if (!candidates[i].flag) {
@@ -159,7 +158,7 @@ nv_face_detect(nv_face_position_t *face_pos,
 		}
 	}
 
-	// •”•i„’è
+	// éƒ¨å“æ¨å®š
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(threads) schedule(dynamic, 1)
 #endif
@@ -181,7 +180,7 @@ nv_face_detect(nv_face_position_t *face_pos,
 		}
 	}
 
-	// Œ‹‰Êì¬
+	// çµæœä½œæˆ
 	nface = 0;
 	for (i = 0; i < ncandidate && i < maxface; ++i) {
 		if (candidates[i].flag) {

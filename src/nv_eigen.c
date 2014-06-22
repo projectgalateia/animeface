@@ -7,10 +7,10 @@
 #define NV_LAPACK_SPEC_FAST 1
 
 
-// ‘ÎŠps—ñ‚ÌŒÅ—L’l,ŒÅ—LƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+// å¯¾è§’è¡Œåˆ—ã®å›ºæœ‰å€¤,å›ºæœ‰ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 int nv_eigen_dm(nv_matrix_t *eigen_vec, 
-				nv_matrix_t *eigen_val,
-				const nv_matrix_t *dmat)
+	nv_matrix_t *eigen_val,
+	const nv_matrix_t *dmat)
 {
 	integer spec = NV_LAPACK_SPEC_FAST;
 	integer nil = -1;

@@ -4,10 +4,10 @@
 
 // k-means++
 
-// Å¬‹——£ƒNƒ‰ƒX‘I‘ğ
-static int 
+// æœ€å°è·é›¢ã‚¯ãƒ©ã‚¹é¸æŠ
+	static int 
 nv_kmeans_bmc(const nv_matrix_t *mat, int mk,
-			  const nv_matrix_t *vec, int vm)
+	const nv_matrix_t *vec, int vm)
 {
 	int k;
 	int min_k = -1;
@@ -25,10 +25,10 @@ nv_kmeans_bmc(const nv_matrix_t *mat, int mk,
 }
 
 
-// K-Means++‰Šú’l‘I‘ğ
-static void 
+// K-Means++åˆæœŸå€¤é¸æŠ
+	static void 
 nv_kmeans_init(nv_matrix_t *means, int k,
-			   const nv_matrix_t *data)
+	const nv_matrix_t *data)
 {
 	int m, c;
 	nv_matrix_t *min_dists = nv_matrix_alloc(1, data->m);
@@ -36,7 +36,7 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 	float potential = 0.0f;
 	int local_tries = 2 + (int)log(data->m);
 
-	// 1‚Â–Ú
+	// 1ã¤ç›®
 	nv_vector_copy(means, 0, data, rnd);
 	for (m = 0; m < data->m; ++m) {
 		float dist = nv_euclidean2(means, 0, data, m);
@@ -63,7 +63,7 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 				new_potential += min(
 					nv_euclidean2(data, m, data, i),
 					NV_MAT_V(min_dists, i, 0)
-				);
+					);
 			}
 			if (new_potential < min_potential) {
 				min_potential = new_potential;
@@ -75,7 +75,7 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 			NV_MAT_V(min_dists, m, 0) = min(
 				nv_euclidean2(data, m, data, best_index),
 				NV_MAT_V(min_dists, m, 0)
-			);
+				);
 		}
 		potential = min_potential;
 	}
@@ -83,20 +83,20 @@ nv_kmeans_init(nv_matrix_t *means, int k,
 	nv_matrix_free(&min_dists);
 }
 
-// Å’·‹——£‚Å‚Ì‰Šú’l‘I‘ğ
-static void 
+// æœ€é•·è·é›¢ã§ã®åˆæœŸå€¤é¸æŠ
+	static void 
 nv_kmeans_init_max(nv_matrix_t *means, int k, const nv_matrix_t *data)
 {
 	int m, c;
 	nv_matrix_t *min_dists = nv_matrix_alloc(1, data->m);
 	int rnd = (int)((data->m - 1) * nv_rand());
 
-	// 1‚Â–Ú
+	// 1ã¤ç›®
 	nv_vector_copy(means, 0, data, rnd);
 	for (m = 0; m < data->m; ++m) {
 		NV_MAT_V(min_dists, m, 0) = nv_euclidean2(means, 0, data, m);
 	}
-	// Å’Z‹——£ƒNƒ‰ƒX‚©‚çˆê”Ô‰“‚¢—v‘f‚ğ‘I‘ğ
+	// æœ€çŸ­è·é›¢ã‚¯ãƒ©ã‚¹ã‹ã‚‰ä¸€ç•ªé ã„è¦ç´ ã‚’é¸æŠ
 	for (c = 1; c < k; ++c) {
 		float max_dist = -FLT_MAX;
 		int max_index = -1;
@@ -115,8 +115,8 @@ nv_kmeans_init_max(nv_matrix_t *means, int k, const nv_matrix_t *data)
 	nv_matrix_free(&min_dists);
 }
 
-// ƒ‰ƒ“ƒ_ƒ€‰Šú’l‘I‘ğ ƒJƒuƒ‹
-static void 
+// ãƒ©ãƒ³ãƒ€ãƒ åˆæœŸå€¤é¸æŠ ã‚«ãƒ–ãƒ«
+	static void 
 nv_kmeans_init_rand(nv_matrix_t *means, int k, const nv_matrix_t *data)
 {
 	int c;
@@ -127,13 +127,13 @@ nv_kmeans_init_rand(nv_matrix_t *means, int k, const nv_matrix_t *data)
 	}
 }
 
-int 
+	int 
 nv_kmeans(nv_matrix_t *means,  // k
-		  nv_matrix_t *count,  // k
-		  nv_matrix_t *labels, // data->m
-		  const nv_matrix_t *data,
-		  const int k,
-		  const int max_epoch)
+	nv_matrix_t *count,  // k
+	nv_matrix_t *labels, // data->m
+	const nv_matrix_t *data,
+	const int k,
+	const int max_epoch)
 {
 	int m, n, c;
 	int processing = 1;
@@ -146,7 +146,7 @@ nv_kmeans(nv_matrix_t *means,  // k
 	assert(means->m >= k);
 	assert(labels->m >= data->m);
 
-	// ‰Šú’l‘I‘ğ
+	// åˆæœŸå€¤é¸æŠ
 	nv_kmeans_init(means, k, data);
 
 	for (m = 0; m < old_labels->m; ++m) {
@@ -157,21 +157,21 @@ nv_kmeans(nv_matrix_t *means,  // k
 	do {
 		nv_matrix_zero(count);
 		nv_matrix_zero(sum);
-		
+
 		for (m = 0; m < data->m; ++m) {
 			int label = nv_kmeans_bmc(means, k, data, m);
-			// ƒ‰ƒxƒ‹Œˆ’è
+			// ãƒ©ãƒ™ãƒ«æ±ºå®š
 			NV_MAT_V(labels, m, 0) = (float)label;
-			// ƒJƒEƒ“ƒg
+			// ã‚«ã‚¦ãƒ³ãƒˆ
 			NV_MAT_V(count, label, 0) += 1.0f;
-			// ƒxƒNƒgƒ‹‡Œv
+			// ãƒ™ã‚¯ãƒˆãƒ«åˆè¨ˆ
 			for (n = 0; n < means->n; ++n) {
 				NV_MAT_V(sum, label, n) += NV_MAT_V(data, m, n);
 			}
 		}
 		++epoch;
 
-		// I—¹”»’è
+		// çµ‚äº†åˆ¤å®š
 		converge = 1;
 		for (m = 0; m < data->m; ++m) {
 			if (NV_MAT_V(labels, m, 0) != NV_MAT_V(old_labels, m, 0)) {
@@ -181,13 +181,13 @@ nv_kmeans(nv_matrix_t *means,  // k
 		}
 
 		if (converge) {
-			// I—¹
+			// çµ‚äº†
 			processing = 0;
 		} else {
-			// ƒ‰ƒxƒ‹XV
+			// ãƒ©ãƒ™ãƒ«æ›´æ–°
 			nv_matrix_copy(old_labels, 0, labels, 0, old_labels->m);
 
-			// ’†‰›’lŒvZ
+			// ä¸­å¤®å€¤è¨ˆç®—
 			for (c = 0; c < k; ++c) {
 				if (NV_MAT_V(count, c, 0) != 0.0f) {
 					float factor = 1.0f / NV_MAT_V(count, c, 0);
@@ -197,11 +197,11 @@ nv_kmeans(nv_matrix_t *means,  // k
 				}
 			}
 
-			// Å‘ås‰ñ””»’è
+			// æœ€å¤§è©¦è¡Œå›æ•°åˆ¤å®š
 			if (max_epoch != 0
 				&& epoch >= max_epoch)
 			{
-				// I—¹
+				// çµ‚äº†
 				processing = 0;
 			}
 		}

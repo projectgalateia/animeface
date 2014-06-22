@@ -34,9 +34,9 @@ void nv_laplacian3(nv_matrix_t *edge, const nv_matrix_t *gray, float level)
 }
 
 void nv_laplacian(nv_matrix_t *edge,
-				  const float kernel[NV_LAPLACIAN_KERNEL_SIZE][NV_LAPLACIAN_KERNEL_SIZE],
-				  const nv_matrix_t *gray,
-				  float level)
+	const float kernel[NV_LAPLACIAN_KERNEL_SIZE][NV_LAPLACIAN_KERNEL_SIZE],
+	const nv_matrix_t *gray,
+	float level)
 {
 	int row;
 	int kernel_offset = NV_LAPLACIAN_KERNEL_SIZE / 2;
@@ -67,7 +67,7 @@ void nv_laplacian(nv_matrix_t *edge,
 			for (krow = 0; krow < NV_LAPLACIAN_KERNEL_SIZE; ++krow) {
 				for (kcol = 0; kcol < NV_LAPLACIAN_KERNEL_SIZE; ++kcol) {
 					v += NV_MAT3D_V(gray, row + krow - kernel_offset, col + kcol - kernel_offset, 0) 
-						 * kernel[krow][kcol];
+						* kernel[krow][kcol];
 				}
 			}
 			v = max(v, 0.0f);

@@ -3,7 +3,7 @@
 #include "nv_num_matrix.h"
 #include "nv_num_eigen.h"
 
-// •ªU‹¤•ªU
+// åˆ†æ•£å…±åˆ†æ•£
 
 nv_cov_t *nv_cov_alloc(int n)
 {
@@ -65,7 +65,7 @@ void nv_cov(nv_matrix_t *cov,
 		&& u->n == cov->n
 		&& s->n == cov->n);
 
-	// •½‹Ï
+	// å¹³å‡
 	nv_matrix_zero(u);
 	for (m = 0; m < data->m; ++m) {
 		for (n = 0; n < data->n; ++n) {
@@ -73,7 +73,7 @@ void nv_cov(nv_matrix_t *cov,
 		}
 	}
 
-	// ãOŠp •ªU‹¤•ªUs—ñ
+	// ä¸Šä¸‰è§’ åˆ†æ•£å…±åˆ†æ•£è¡Œåˆ—
 	nv_matrix_zero(cov);
 	nv_matrix_zero(s);
 	for (n = 0; n < cov->n; ++n) {

@@ -7,8 +7,8 @@ extern "C" {
 
 
 int nv_eigen_dm(nv_matrix_t *eigen_vec, 
-				nv_matrix_t *eigen_val,
-				const nv_matrix_t *dmat);
+	nv_matrix_t *eigen_val,
+	const nv_matrix_t *dmat);
 
 
 #ifdef __cplusplus

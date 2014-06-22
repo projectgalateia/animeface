@@ -8,7 +8,7 @@ void nv_gray(nv_matrix_t *gray, const nv_matrix_t *bgr)
 {
 #if NV_ENABLE_CUDA
 	if (nv_gpu_available()) {
-		// ’x‚¢@ƒsƒNƒZƒ‹‚Ì§ŒÀ‚ ‚è
+		// é…ã„ã€€ãƒ”ã‚¯ã‚»ãƒ«ã®åˆ¶é™ã‚ã‚Š
 		nv_gray_gpu(gray, bgr);
 	} else {
 		nv_gray_cpu(gray, bgr);

@@ -26,7 +26,7 @@ typedef struct
 #define NV_MAT_M(mat, row, col) ((mat)->cols * (row) + (col))
 #define NV_MAT3D_V(mat, row, col, n) ((mat)->v[NV_MAT_M((mat), (row), (col)) * (mat)->step + (n)])
 #define NV_MAT_V(mat, m, n) ((mat)->v[(m) * (mat)->step + (n)])
-// “]’u
+// è»¢ç½®
 #define NV_MAT_VT(mat, m, n) ((mat)->v[(n) * (mat)->step + (m)])
 
 #define NV_MAT3D_LIST_V(mat, list, row, col, n) ((mat)->v[(mat->list_step * list) + NV_MAT_M((mat), (row), (col)) * (mat)->step + (n)])
