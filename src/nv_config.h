@@ -11,7 +11,6 @@
 #else
 #define NV_ENABLE_SSE2   0
 #endif
-#define NV_ENABLE_OPENCV 0  // OpenCV変換を使うか
 #define NV_XS            1  // Perl用
 
 #else
@@ -20,7 +19,6 @@
 #define NV_ENABLE_CLOCK  1  // nv_clockを使うか
 #define NV_ENABLE_SLEEP  1  // nv_sleepを使うか
 #define NV_ENABLE_SSE2   1  // SSE2を使うか
-#define NV_ENABLE_OPENCV 1  // OpenCV変換を使うか
 #define NV_XS            0  // Perl用
 
 #endif
