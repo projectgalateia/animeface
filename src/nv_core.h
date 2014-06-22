@@ -6,7 +6,6 @@
 extern "C" {
 #endif
 
-#include "nv_portable.h"
 #include "nv_core_matrix.h"
 #include "nv_core_util.h"
 
