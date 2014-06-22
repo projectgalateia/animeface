@@ -15,7 +15,6 @@ Requirements
 --------
 
 - Remove inner dependencies of CLAPACK
-- Remove CUDA codes
 - Code organization
 - Using CMake
 - English documentation & wiki
