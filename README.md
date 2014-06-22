@@ -15,6 +15,7 @@ Requirements
 --------
 
 - Remove inner dependencies of CLAPACK
+- Remove unnecessary files
 - Code organization
 - Using CMake
 - English documentation & wiki
