@@ -3,7 +3,7 @@ AnimeFace
 
 Anime Character Face detector based on 2-Layer Multilayer Perceptron.
 
-Fork of Imager::AnimeFace (http://anime.udp.jp/imager-animeface.html).
+A fork of Imager::AnimeFace (http://anime.udp.jp/imager-animeface.html).
 
 
 Requirements
