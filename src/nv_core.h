@@ -5,10 +5,7 @@
 extern "C" {
 #endif
 
-#include <stdlib.h>
-#include <float.h>
-#include <math.h>
-#include <string.h>
+#include "nv_portable.h"
 
 #include "nv_core_matrix.h"
 #include "nv_core_util.h"
